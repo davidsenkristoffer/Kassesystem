@@ -7,10 +7,15 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "bruker", schema = "varer")
-data class Bruker constructor(
+data class Bruker(
         @Id
-        @Column(name = "brukernavn")
-        private val brukernavn: String,
-        @Column(name = "passord")
-        private val passord: String
-)
+        val brukernavn: String = "",
+        var passord: String = ""
+) {
+    init {
+        if (brukernavn.isBlank() || passord.isBlank()) {
+            throw IllegalArgumentException("Brukernavn eller passord kan ikke være tom.")
+        }
+    }
+    constructor(bruker: Bruker) : this()
+}
