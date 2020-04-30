@@ -1,1 +1,4 @@
-Kassesystem v2. Byttet ut med Kotlin og TornadoFX.
+Kassesystem v2.
+- Kotlin
+- Spring Boot
+- TornadoFX
