@@ -2,6 +2,7 @@ package com.pos.kasse
 
 import com.pos.kasse.styles.Navbar
 import com.pos.kasse.views.Login
+import com.pos.kasse.views.Varesoek
 import javafx.application.Application
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication

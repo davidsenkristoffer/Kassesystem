@@ -1,22 +1,28 @@
 package com.pos.kasse.styles
 
 import javafx.scene.paint.Color
-import tornadofx.Stylesheet
-import tornadofx.box
-import tornadofx.c
-import tornadofx.cssclass
+import tornadofx.*
 
 class Navbar : Stylesheet() {
 
     companion object {
         val navbar by cssclass()
-        private val topcolor = Color.CORNFLOWERBLUE
-        private val bottomcolor = c("#FFFAF0")
+        val wrapper by cssclass()
+        val navfont = loadFont("/Inconsolata-Light.ttf", 24.0)!!
     }
 
     init {
+        wrapper {
+            padding = box(10.px)
+            spacing = 10.px
+            font = navfont
+            label {
+                fontSize = 32.px
+                padding = box(5.px, 10.px)
+            }
+        }
         navbar {
-            borderColor += box(topcolor, bottomcolor)
+            //Farge og stil etc
         }
     }
 

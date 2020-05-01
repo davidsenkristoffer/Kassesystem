@@ -1,6 +1,6 @@
-package com.pos.kasse.entity
+package com.pos.kasse.entities
 
-import javax.persistence.Column
+import org.springframework.stereotype.Component
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Table
@@ -10,7 +10,7 @@ import javax.persistence.Table
 data class Bruker(
         @Id
         val brukernavn: String = "",
-        var passord: String = ""
+        val passord: String = ""
 ) {
     init {
         if (brukernavn.isBlank() || passord.isBlank()) {

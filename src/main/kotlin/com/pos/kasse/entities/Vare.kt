@@ -1,4 +1,4 @@
-package com.pos.kasse.entity
+package com.pos.kasse.entities
 
 import javax.persistence.*
 
@@ -12,7 +12,7 @@ data class Vare(
         var beskrivelse: String = "",
         val plu: Int? = null,
         var sortimentskode: String = "",
-        var kategori: Enum<Kategori>? = Kategori.INGEN
+        var kategori: Enum<Kategori> = Kategori.INGEN
     ) {
     constructor(vare: Vare) : this()
 

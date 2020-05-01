@@ -1,6 +1,6 @@
 package com.pos.kasse.services
 
-import com.pos.kasse.entity.Bruker
+import com.pos.kasse.entities.Bruker
 import com.pos.kasse.repositories.LoginRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder

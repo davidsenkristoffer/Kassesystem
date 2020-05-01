@@ -1,4 +1,4 @@
-package com.pos.kasse.entity
+package com.pos.kasse.entities
 
 @Suppress("NonAsciiCharacters")
 enum class Kategori {

@@ -1,6 +1,5 @@
-package com.pos.kasse.entity
+package com.pos.kasse.entities
 
-import org.aspectj.weaver.ast.Var
 import java.time.LocalDateTime
 import javax.persistence.*
 

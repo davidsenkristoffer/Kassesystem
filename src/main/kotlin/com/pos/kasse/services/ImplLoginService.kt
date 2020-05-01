@@ -1,7 +1,6 @@
 package com.pos.kasse.services
 
-import com.pos.kasse.entity.Bruker
-import org.springframework.stereotype.Service
+import com.pos.kasse.entities.Bruker
 
 interface ImplLoginService {
 
