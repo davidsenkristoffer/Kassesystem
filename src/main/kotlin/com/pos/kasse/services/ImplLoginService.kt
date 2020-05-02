@@ -6,7 +6,7 @@ interface ImplLoginService {
 
     fun kontrollerBrukernavn(brukernavn : String) : Boolean
 
-    fun kontrollerLogin(bruker : Bruker, hashedPassord : String) : Boolean
+    fun kontrollerLogin(bruker : Bruker) : Boolean
 
     fun lagNyBruker(bruker : Bruker)
 }

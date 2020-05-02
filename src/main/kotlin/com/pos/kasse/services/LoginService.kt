@@ -18,9 +18,10 @@ class LoginService : ImplLoginService {
         return loginRepo.existsById(brukernavn)
     }
 
-    override fun kontrollerLogin(bruker : Bruker, hashedPassord: String): Boolean {
+    override fun kontrollerLogin(bruker : Bruker): Boolean {
+        val hashedPassord: String = bruker.passord
         val dbBruker: Bruker = loginRepo.findById(bruker.brukernavn).orElseThrow()
-        return bcryptPassword.matches(bruker.passord, dbBruker.passord)
+        return bcryptPassword.matches(hashedPassord, dbBruker.passord)
     }
 
     override fun lagNyBruker(bruker: Bruker) {

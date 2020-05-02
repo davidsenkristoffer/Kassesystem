@@ -10,7 +10,9 @@ class LoginStyle : Stylesheet() {
     }
 
     init {
+        form {
 
+        }
     }
 
 }

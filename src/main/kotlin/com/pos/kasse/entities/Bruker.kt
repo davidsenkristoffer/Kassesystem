@@ -12,10 +12,5 @@ data class Bruker(
         val brukernavn: String = "",
         val passord: String = ""
 ) {
-    init {
-        if (brukernavn.isBlank() || passord.isBlank()) {
-            throw IllegalArgumentException("Brukernavn eller passord kan ikke være tom.")
-        }
-    }
     constructor(bruker: Bruker) : this()
 }
