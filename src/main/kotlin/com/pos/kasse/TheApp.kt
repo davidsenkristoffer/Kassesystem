@@ -1,5 +1,7 @@
 package com.pos.kasse
 
+import com.pos.kasse.styles.Footer
+import com.pos.kasse.styles.LoginStyle
 import com.pos.kasse.styles.Navbar
 import com.pos.kasse.views.Login
 import com.pos.kasse.views.Varesoek
@@ -8,17 +10,21 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.ComponentScan
-import tornadofx.App
-import tornadofx.DIContainer
-import tornadofx.FX
-import tornadofx.reloadStylesheetsOnFocus
+import tornadofx.*
 import kotlin.reflect.KClass
 
 @SpringBootApplication
-class TheApp: App(Login::class, Navbar::class) {
+class TheApp: App() {
+
+    override val primaryView = Login::class
 
     private lateinit var context: ConfigurableApplicationContext
 
+    init {
+        importStylesheet(Navbar::class)
+        importStylesheet(LoginStyle::class)
+        importStylesheet(Footer::class)
+    }
     override fun init() {
         this.context = SpringApplication.run(this.javaClass)
         context.autowireCapableBeanFactory.autowireBean(this)

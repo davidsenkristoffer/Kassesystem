@@ -9,8 +9,8 @@ import javax.persistence.Table
 @Table(name = "bruker", schema = "varer")
 data class Bruker(
         @Id
-        val brukernavn: String = "",
-        val passord: String = ""
+        var brukernavn: String = "",
+        var passord: String = ""
 ) {
     constructor(bruker: Bruker) : this()
 }
