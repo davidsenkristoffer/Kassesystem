@@ -1,9 +1,16 @@
 package com.pos.kasse.entities
 
+import org.springframework.data.relational.core.mapping.Table
 import javax.persistence.*
 
+/**
+ * Endre pris til double
+ * Legge til flere beskrivelser, f.eks. opprinnelsesland
+ * Generere tilfeldig EAN? Lage en utils-metode
+ */
+
 @Entity
-@Table(name = "vare", schema = "varer")
+@Table
 data class Vare(
         @Id
         val ean: Long = 0L,
