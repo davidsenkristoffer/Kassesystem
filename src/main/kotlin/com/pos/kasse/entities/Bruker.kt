@@ -1,11 +1,11 @@
 package com.pos.kasse.entities
 
-import org.springframework.data.relational.core.mapping.Table
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.Table
 
 @Entity
-@Table
+@Table(name = "bruker", schema = "varer")
 data class Bruker(
         @Id
         var brukernavn: String = "",

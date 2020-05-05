@@ -4,20 +4,19 @@ import com.pos.kasse.styles.Footer
 import com.pos.kasse.styles.LoginStyle
 import com.pos.kasse.styles.Navbar
 import com.pos.kasse.views.Login
-import com.pos.kasse.views.Varesoek
-import javafx.application.Application
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.ConfigurableApplicationContext
-import org.springframework.context.annotation.ComponentScan
 import tornadofx.*
 import kotlin.reflect.KClass
 
+/**
+ * Ikke bruk @Table fra Spring, da blir det rot.
+ */
+
 @SpringBootApplication
 class TheApp: App() {
-
     override val primaryView = Login::class
-
     private lateinit var context: ConfigurableApplicationContext
 
     init {

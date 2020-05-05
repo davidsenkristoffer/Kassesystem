@@ -5,5 +5,4 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface KvitteringRepository : CrudRepository<Kvittering, Int> {
-}
+interface KvitteringRepository : CrudRepository<Kvittering, Int>

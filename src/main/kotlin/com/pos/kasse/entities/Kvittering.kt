@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table
+@Table(name = "kvittering", schema = "varer")
 data class Kvittering(
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val kvitteringsid: Int = 0,

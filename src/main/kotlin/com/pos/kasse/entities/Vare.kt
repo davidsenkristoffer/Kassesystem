@@ -1,6 +1,5 @@
 package com.pos.kasse.entities
 
-import org.springframework.data.relational.core.mapping.Table
 import javax.persistence.*
 
 /**
@@ -10,7 +9,7 @@ import javax.persistence.*
  */
 
 @Entity
-@Table
+@javax.persistence.Table(name = "vare", schema = "varer")
 data class Vare(
         @Id
         val ean: Long = 0L,
