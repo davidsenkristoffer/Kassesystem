@@ -4,6 +4,8 @@ import com.pos.kasse.styles.Footer
 import com.pos.kasse.styles.LoginStyle
 import com.pos.kasse.styles.Navbar
 import com.pos.kasse.views.Login
+import javafx.scene.Scene
+import javafx.stage.Stage
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.ConfigurableApplicationContext
@@ -24,6 +26,13 @@ class TheApp: App() {
         importStylesheet(LoginStyle::class)
         importStylesheet(Footer::class)
     }
+
+    override fun start(stage: Stage) {
+        super.start(stage)
+        stage.width = 800.0
+        stage.height = 600.0
+    }
+
     override fun init() {
         this.context = SpringApplication.run(this.javaClass)
         context.autowireCapableBeanFactory.autowireBean(this)

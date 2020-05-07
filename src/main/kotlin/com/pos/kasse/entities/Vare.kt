@@ -1,5 +1,5 @@
 package com.pos.kasse.entities
-
+import kotlinx.serialization.*
 import javax.persistence.*
 
 /**

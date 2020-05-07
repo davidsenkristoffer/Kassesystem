@@ -30,10 +30,6 @@ class Login : View() {
         "%+d".format(it)
     }
 
-    init {
-        title = "Login"
-    }
-
     override val root = borderpane {
         top {
             label("Davidsens Matkolonial") {
@@ -57,10 +53,8 @@ class Login : View() {
                             bruker.passord = passordProp.get()
                             loginCode = performLogin(bruker)
                             if (loginCode == 0) {
-                                //TODO: Bytter kun ut center av borderpane, må bytte hele vinduet.
                                 this@Login.replaceWith(MainWindow::class,
                                         transition = ViewTransition.FadeThrough(2.seconds ,Color.TRANSPARENT))
-
                             }
                         }
                         //TODO: Midlertidig løsning på null-props.
@@ -89,5 +83,13 @@ class Login : View() {
         }
         logger.printConsole(loginMessage)
         return loginCode
+    }
+    //TODO: Overkjøre hovedvindu?
+    init {
+        with (root) {
+            prefWidth = 400.0
+            prefHeight = 200.0
+            title = "Login"
+        }
     }
 }
