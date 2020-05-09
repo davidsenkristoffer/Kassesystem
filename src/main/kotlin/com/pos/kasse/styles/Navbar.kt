@@ -1,6 +1,5 @@
 package com.pos.kasse.styles
 
-import javafx.scene.paint.Color
 import tornadofx.*
 
 class Navbar : Stylesheet() {

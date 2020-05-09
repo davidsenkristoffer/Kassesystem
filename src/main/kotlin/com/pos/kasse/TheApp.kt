@@ -2,9 +2,9 @@ package com.pos.kasse
 
 import com.pos.kasse.styles.Footer
 import com.pos.kasse.styles.LoginStyle
+import com.pos.kasse.styles.MainWindowStyle
 import com.pos.kasse.styles.Navbar
 import com.pos.kasse.views.Login
-import javafx.scene.Scene
 import javafx.stage.Stage
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -25,6 +25,7 @@ class TheApp: App() {
         importStylesheet(Navbar::class)
         importStylesheet(LoginStyle::class)
         importStylesheet(Footer::class)
+        importStylesheet(MainWindowStyle::class)
     }
 
     override fun start(stage: Stage) {

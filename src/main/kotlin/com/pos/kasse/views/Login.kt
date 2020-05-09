@@ -6,17 +6,10 @@ import com.pos.kasse.styles.Footer
 import com.pos.kasse.styles.LoginStyle
 import com.pos.kasse.styles.Navbar
 import com.pos.kasse.utils.Logger
-import javafx.beans.binding.StringBinding
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.event.EventDispatchChain
-import javafx.event.EventTarget
-import javafx.scene.Node
 import javafx.scene.paint.Color
 import tornadofx.*
-import java.util.function.Predicate.not
-import kotlin.properties.Delegates
-
 
 class Login : View() {
 
