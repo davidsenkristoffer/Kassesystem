@@ -6,6 +6,7 @@ class Logger {
         println(message)
     }
 
+    //Alert-klasse
     fun alertOnScreen(message: String) {
         TODO("Implement alert on screen...")
     }

@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.ConfigurableApplicationContext
 import tornadofx.*
+import java.lang.IllegalArgumentException
 import kotlin.reflect.KClass
 
 /**
@@ -29,9 +30,13 @@ class TheApp: App() {
     }
 
     override fun start(stage: Stage) {
-        super.start(stage)
-        stage.width = 800.0
-        stage.height = 600.0
+        try {
+            super.start(stage)
+            stage.width = 800.0
+            stage.height = 600.0
+        } catch (e: Exception) {
+            e.message
+        }
     }
 
     override fun init() {

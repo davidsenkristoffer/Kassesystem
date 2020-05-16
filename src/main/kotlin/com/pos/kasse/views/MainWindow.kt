@@ -6,14 +6,20 @@ import com.pos.kasse.services.VareService
 import com.pos.kasse.styles.Footer
 import com.pos.kasse.styles.MainWindowStyle
 import com.pos.kasse.styles.Navbar
+import com.pos.kasse.utils.Logger
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleLongProperty
+import javafx.geometry.Insets
+import javafx.geometry.Pos
 import javafx.scene.control.TableView
+import javafx.scene.input.KeyCode
+import javafx.util.Duration
 import tornadofx.*
 
 class MainWindow : View() {
-    //TODO: Serialiser objekter før henting av databaseobjekter er mulig.
+    //TODO: Serialisere objekter før henting av databaseobjekter er mulig.
     private val vareService: VareService by di()
+    private val logger = Logger()
 
     //Liste med alle varer
     private val vareliste = mutableListOf(
@@ -23,13 +29,13 @@ class MainWindow : View() {
             700, "F9", Kategori.FRUKT),
             Vare(1234567890125, "eple", 10, "gul eple",
             722, "F9", Kategori.FRUKT),
-            Vare(1234567890126, "poteter", 10, "brune poteter",
+            Vare(1234567890126, "poteter", 22, "brune poteter",
             743, "F9", Kategori.FRUKT),
-            Vare(1234567890128, "banan", 10, "gul banan",
+            Vare(1234567890128, "banan", 35, "gul banan",
             710, "F9", Kategori.FRUKT),
-            Vare(1234567890129, "gulrøtter", 10, "oransje gulrøtter",
+            Vare(1234567890129, "gulrøtter", 21, "oransje gulrøtter",
             null, "F9", Kategori.FRUKT),
-            Vare(1234567890130, "ruccula", 10, "grønn ruccula",
+            Vare(1234567890130, "ruccula", 19, "grønn ruccula",
             null, "F9", Kategori.FRUKT),
             Vare(1234567890147, "smoothie", 10, "blå smoothie",
                     null, "F9", Kategori.FRUKT)
@@ -39,46 +45,54 @@ class MainWindow : View() {
     private var observablelist = mutableListOf<Vare>().asObservable()
     private var index = 0
 
-    //subtotal
-    private var subtotalsum: Int = 0
-    private val subtotalProperty = SimpleIntegerProperty(this, "", subtotalsum)
-
     //plu eller ean
-    private var pluEan: Long = 0
-    private val pluEanProperty = SimpleLongProperty(this, "", pluEan)
+    private var ean: Long = 0
+    private val eanProperty = SimpleLongProperty(this, "", ean)
+    private var plu: Int = 0
+    private val pluProperty = SimpleIntegerProperty(this, "", plu)
+
+    //Subtotal
+    private val vm: SubtotalAppend by inject()
+    private val vmsub: SubtotalStatus by inject()
 
     override val root = borderpane {
-
         center {
             vbox {
-
                 /*
-                TODO: Første input registreres ikke. Andre input går som normalt, legger til vare med plu.
-                TODO: Fikse subtotal-prop. Legge inn som subcell i tableview?
+                TODO: Første input registreres ikke.
+                TODO: Fikse subtotal-sum
+                TODO: Fikse ean-innlesing
                  */
-
                 tableview(observablelist) {
-                    readonlyColumn("Navn", Vare::navn)
-                    readonlyColumn("Pris", Vare::pris)
+                    readonlyColumn("Navn", Vare::navn).sortType
+                    readonlyColumn("Pris", Vare::pris).sortType
+                    scrollTo(observablelist.lastIndex)
                     columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY
                 }
-                label("Subtotal: ${subtotalProperty.value}")
+                hbox {
+                    label("Subtotal: ")
+                    label(vmsub.lastNumber)
+                    alignment = Pos.CENTER_RIGHT
+                    padding = Insets(2.0,10.0,2.0,5.0)
+                }
                 textfield {
-                    filterInput { it.controlNewText.isLong() }
-                    setOnAction {
-                        this.bind(pluEanProperty)
-                        if (this.length == 3 || this.length == 4 || this.length == 13) {
-                            vareliste.forEach { vare ->
-                                if (vare.plu == pluEanProperty.intValue()) {
-                                    observablelist.add(vare)
-                                    subtotalProperty.plus(vare.pris)
-                                } else if (vare.ean == pluEanProperty.value) {
-                                    observablelist.add(vare)
-                                    subtotalProperty.plus(vare.pris)
+                    setOnKeyPressed {
+                        if (it.code == KeyCode.ENTER) {
+                            if (this.length == 3 || this.length == 4) { //PLU kan være 3 eller 4 karakterer
+                                this.bind(pluProperty)
+                                plu = pluProperty.get()
+                                vareliste.forEach { vare ->
+                                    if (vare.plu == plu) {
+                                        observablelist.add(vare)
+                                        vm.save(vare.pris)
+                                    }
                                 }
                             }
+                            runLater(Duration.ONE) { this.clear() }
                         }
-                        this.clear()
+                        if (it.code == KeyCode.BACK_SPACE) {
+                            this.clear()
+                        }
                     }
                 }
             }
@@ -100,3 +114,26 @@ class MainWindow : View() {
         }
     }
 }
+
+//Legger til pris ved bruk av FXEvent.
+class SubtotalAppend : ViewModel() {
+    val data = SimpleIntegerProperty()
+    fun save(pris: Int) {
+        println("Pris = $pris")
+        fire(DataSavedEvent(pris))
+    }
+}
+
+//Viser subtotal i View.
+class SubtotalStatus : ViewModel() {
+    val lastNumber = SimpleIntegerProperty()
+    init {
+        subscribe<DataSavedEvent> {
+            lastNumber.value += it.message
+            println(lastNumber.value)
+        }
+    }
+}
+
+//Event som holder siste pris
+class DataSavedEvent(val message: Int) : FXEvent()

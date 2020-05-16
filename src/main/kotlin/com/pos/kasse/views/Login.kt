@@ -13,17 +13,15 @@ import tornadofx.*
 
 class Login : View() {
 
-    private var loginCode = 666
     private val loginService: LoginService by di()
     private val bruker = Bruker()
     private val brukernavnProp = SimpleStringProperty()
     private val passordProp = SimpleStringProperty()
-    private var errorProp = SimpleIntegerProperty(loginCode)
-    private var errorMsg = errorProp.stringBinding{
-        "%+d".format(it)
-    }
+    private var errorProp = SimpleIntegerProperty()
+    private var loginCode by errorProp
 
     override val root = borderpane {
+
         top {
             label("Davidsens Matkolonial") {
                 addClass(Navbar.wrapper)
@@ -33,7 +31,11 @@ class Login : View() {
             form {
                 addClass(LoginStyle.form)
                 fieldset("Login") {
-                    label(errorMsg) //TODO: Lage Event for denne.
+                    label { //TODO: Event
+                        if (loginCode == 0) {
+                            hide()
+                        }
+                    }
                     field("Brukernavn") {
                         textfield().bind(brukernavnProp)
                     }
@@ -44,10 +46,14 @@ class Login : View() {
                         setOnAction {
                             bruker.brukernavn = brukernavnProp.get()
                             bruker.passord = passordProp.get()
-                            loginCode = performLogin(bruker)
+                            try {
+                                loginCode = performLogin(bruker)
+                            } catch (e: NoSuchElementException) {
+                                e.message
+                            }
                             if (loginCode == 0) {
                                 this@Login.replaceWith(MainWindow::class,
-                                        transition = ViewTransition.FadeThrough(2.seconds ,Color.TRANSPARENT))
+                                        transition = ViewTransition.FadeThrough(1.seconds ,Color.TRANSPARENT))
                             }
                         }
                         //TODO: Midlertidig løsning på null-props.
@@ -85,4 +91,6 @@ class Login : View() {
             title = "Login"
         }
     }
+
+
 }
