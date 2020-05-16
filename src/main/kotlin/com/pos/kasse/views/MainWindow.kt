@@ -13,6 +13,7 @@ import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyEvent
 import javafx.util.Duration
 import tornadofx.*
 
@@ -60,13 +61,19 @@ class MainWindow : View() {
             vbox {
                 /*
                 TODO: Første input registreres ikke.
-                TODO: Fikse subtotal-sum
                 TODO: Fikse ean-innlesing
+                TODO: scrollTo() i tableview skal alltid scrolle til nederste objekt.
                  */
                 tableview(observablelist) {
                     readonlyColumn("Navn", Vare::navn).sortType
                     readonlyColumn("Pris", Vare::pris).sortType
-                    scrollTo(observablelist.lastIndex)
+
+                    //TODO()
+                    setOnKeyPressed {
+                        if (it.code == KeyCode.ENTER) {
+                            scrollTo(observablelist.lastIndex)
+                        }
+                    }
                     columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY
                 }
                 hbox {
@@ -88,7 +95,9 @@ class MainWindow : View() {
                                     }
                                 }
                             }
-                            runLater(Duration.ONE) { this.clear() }
+                            runLater(Duration.ONE) {
+                                this.clear()
+                            }
                         }
                         if (it.code == KeyCode.BACK_SPACE) {
                             this.clear()

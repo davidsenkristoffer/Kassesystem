@@ -1,5 +1,6 @@
 package com.pos.kasse.views
 
+import com.pos.kasse.adminviews.Admin
 import com.pos.kasse.entities.Bruker
 import com.pos.kasse.services.LoginService
 import com.pos.kasse.styles.Footer
@@ -16,9 +17,12 @@ class Login : View() {
     private val loginService: LoginService by di()
     private val bruker = Bruker()
     private val brukernavnProp = SimpleStringProperty()
+    private var brukernavn by brukernavnProp
     private val passordProp = SimpleStringProperty()
+    private var passord by passordProp
     private var errorProp = SimpleIntegerProperty()
     private var loginCode by errorProp
+    private val logger = Logger()
 
     override val root = borderpane {
 
@@ -31,42 +35,49 @@ class Login : View() {
             form {
                 addClass(LoginStyle.form)
                 fieldset("Login") {
-                    label { //TODO: Event
-                        if (loginCode == 0) {
-                            hide()
-                        }
-                    }
                     field("Brukernavn") {
                         textfield().bind(brukernavnProp)
                     }
                     field("Passord") {
                         passwordfield().bind(passordProp)
                     }
-                    button("GO...") {
+                    button("Logg inn") {
                         setOnAction {
-                            bruker.brukernavn = brukernavnProp.get()
-                            bruker.passord = passordProp.get()
+                            if (passordProp.value.isNullOrBlank() ||
+                                    brukernavnProp.value.isNullOrBlank()) {
+                                logger.alertOnLogin("Passord eller brukernavn kan ikke være tom!")
+                                return@setOnAction
+                            }
+                            bruker.brukernavn = brukernavnProp.value
+                            bruker.passord = passordProp.value
                             try {
                                 loginCode = performLogin(bruker)
                             } catch (e: NoSuchElementException) {
                                 e.message
                             }
-                            if (loginCode == 0) {
+                            if (loginCode == 2) {
                                 this@Login.replaceWith(MainWindow::class,
-                                        transition = ViewTransition.FadeThrough(1.seconds ,Color.TRANSPARENT))
+                                        transition = ViewTransition.
+                                        FadeThrough(1.seconds ,Color.TRANSPARENT))
+                            } else {
+
+                                logger.alertOnLogin("Feil brukernavn eller passord")
                             }
                         }
-                        //TODO: Midlertidig løsning på null-props.
-                        disableProperty().bind(brukernavnProp.isNull.or(passordProp.isNull))
                     }
                 }
-
             }
         }
         bottom {
-            label("Tester bunntekst") {
-                addClass(Footer.wrapper)
+            button("Admin") {
+                setOnAction {
+                    this@Login.replaceWith(Admin::class, transition = ViewTransition
+                            .FadeThrough(1.seconds, Color.TRANSPARENT))
+                }
             }
+            button("Varer")
+            button("Kvitteringer")
+            addClass(Footer.wrapper)
         }
     }
     private fun performLogin(bruker: Bruker): Int {
@@ -74,7 +85,7 @@ class Login : View() {
         val loginMessage: String
 
         if (loginService.kontrollerLogin(bruker)) {
-            loginCode = 0
+            loginCode = 2
             loginMessage = "Kode: ${loginCode}, ${bruker.brukernavn} logges inn..."
         } else {
             loginCode = 1

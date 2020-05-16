@@ -1,0 +1,11 @@
+package com.pos.kasse.adminviews
+
+import javafx.scene.Parent
+import tornadofx.*
+
+class Admin : View() {
+
+    override val root: Parent
+        get() = TODO("Not yet implemented")
+
+}

@@ -10,7 +10,6 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.ConfigurableApplicationContext
 import tornadofx.*
-import java.lang.IllegalArgumentException
 import kotlin.reflect.KClass
 
 /**
