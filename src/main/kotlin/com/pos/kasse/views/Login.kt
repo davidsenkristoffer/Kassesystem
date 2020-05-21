@@ -17,10 +17,8 @@ class Login : View() {
     private val loginService: LoginService by di()
     private val bruker = Bruker()
     private val brukernavnProp = SimpleStringProperty()
-    private var brukernavn by brukernavnProp
     private val passordProp = SimpleStringProperty()
-    private var passord by passordProp
-    private var errorProp = SimpleIntegerProperty()
+    private val errorProp = SimpleIntegerProperty()
     private var loginCode by errorProp
     private val logger = Logger()
 
@@ -69,15 +67,17 @@ class Login : View() {
             }
         }
         bottom {
-            button("Admin") {
-                setOnAction {
-                    this@Login.replaceWith(Admin::class, transition = ViewTransition
-                            .FadeThrough(1.seconds, Color.TRANSPARENT))
+            hbox {
+                button("Admin") {
+                    setOnAction {
+                        this@Login.replaceWith(Admin::class, transition = ViewTransition
+                                .FadeThrough(1.seconds, Color.TRANSPARENT))
+                    }
                 }
+                button("Varer")
+                button("Kvitteringer")
+                addClass(Footer.wrapper)
             }
-            button("Varer")
-            button("Kvitteringer")
-            addClass(Footer.wrapper)
         }
     }
     private fun performLogin(bruker: Bruker): Int {

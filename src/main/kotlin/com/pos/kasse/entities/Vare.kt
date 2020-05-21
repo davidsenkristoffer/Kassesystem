@@ -1,5 +1,6 @@
 package com.pos.kasse.entities
 import kotlinx.serialization.*
+import java.io.Serializable
 import javax.persistence.*
 
 /**
@@ -12,14 +13,13 @@ import javax.persistence.*
 @javax.persistence.Table(name = "vare", schema = "varer")
 data class Vare(
         @Id
-        val ean: Long = 0L,
+        val ean: Long = 0,
         var navn: String = "",
         var pris: Int = 0,
         var beskrivelse: String = "",
         val plu: Int? = null,
         var sortimentskode: String = "",
-        var kategori: Enum<Kategori> = Kategori.INGEN
-    ) {
+        var kategori: String = ""
+    ) : Serializable {
     constructor(vare: Vare) : this()
-
 }

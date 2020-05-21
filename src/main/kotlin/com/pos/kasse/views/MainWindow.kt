@@ -1,6 +1,6 @@
 package com.pos.kasse.views
 
-import com.pos.kasse.entities.Kategori
+import com.pos.kasse.config.Runner
 import com.pos.kasse.entities.Vare
 import com.pos.kasse.services.VareService
 import com.pos.kasse.styles.Footer
@@ -13,38 +13,17 @@ import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
-import javafx.scene.input.KeyEvent
 import javafx.util.Duration
 import tornadofx.*
 
 class MainWindow : View() {
-    //TODO: Serialisere objekter før henting av databaseobjekter er mulig.
     private val vareService: VareService by di()
     private val logger = Logger()
-
-    //Liste med alle varer
-    private val vareliste = mutableListOf(
-            Vare(1234567890123, "drue", 10, "blå drue",
-            null, "F9", Kategori.FRUKT),
-            Vare(1234567890124, "appelsin", 10, "oransje appelsin",
-            700, "F9", Kategori.FRUKT),
-            Vare(1234567890125, "eple", 10, "gul eple",
-            722, "F9", Kategori.FRUKT),
-            Vare(1234567890126, "poteter", 22, "brune poteter",
-            743, "F9", Kategori.FRUKT),
-            Vare(1234567890128, "banan", 35, "gul banan",
-            710, "F9", Kategori.FRUKT),
-            Vare(1234567890129, "gulrøtter", 21, "oransje gulrøtter",
-            null, "F9", Kategori.FRUKT),
-            Vare(1234567890130, "ruccula", 19, "grønn ruccula",
-            null, "F9", Kategori.FRUKT),
-            Vare(1234567890147, "smoothie", 10, "blå smoothie",
-                    null, "F9", Kategori.FRUKT)
-            ).asObservable()
+    private val startup: Runner by di()
 
     //Liste der man legger til varer i salget, pr. nå ved å trykke på knappen.
     private var observablelist = mutableListOf<Vare>().asObservable()
-    private var index = 0
+    private val varelisten = startup.vareliste.asObservable()
 
     //plu eller ean
     private var ean: Long = 0
@@ -58,11 +37,13 @@ class MainWindow : View() {
 
     override val root = borderpane {
         center {
+            println(varelisten.size)
             vbox {
                 /*
                 TODO: Første input registreres ikke.
                 TODO: Fikse ean-innlesing
                 TODO: scrollTo() i tableview skal alltid scrolle til nederste objekt.
+                TODO: PLU med 4 tall leses ikke. Knyttet til tekstfeltet.
                  */
                 tableview(observablelist) {
                     readonlyColumn("Navn", Vare::navn).sortType
@@ -85,10 +66,11 @@ class MainWindow : View() {
                 textfield {
                     setOnKeyPressed {
                         if (it.code == KeyCode.ENTER) {
-                            if (this.length == 3 || this.length == 4) { //PLU kan være 3 eller 4 karakterer
+                            if (this.length == 3 || this.length == 4) {
                                 this.bind(pluProperty)
                                 plu = pluProperty.get()
-                                vareliste.forEach { vare ->
+                                logger.printConsole("$plu") //Sjekker plu 4
+                                varelisten.forEach { vare ->
                                     if (vare.plu == plu) {
                                         observablelist.add(vare)
                                         vm.save(vare.pris)
@@ -128,7 +110,6 @@ class MainWindow : View() {
 class SubtotalAppend : ViewModel() {
     val data = SimpleIntegerProperty()
     fun save(pris: Int) {
-        println("Pris = $pris")
         fire(DataSavedEvent(pris))
     }
 }
@@ -139,7 +120,6 @@ class SubtotalStatus : ViewModel() {
     init {
         subscribe<DataSavedEvent> {
             lastNumber.value += it.message
-            println(lastNumber.value)
         }
     }
 }
