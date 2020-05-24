@@ -11,7 +11,8 @@ data class Kvittering(
         val kvitteringsid: Int = 0,
         val datoOgTid: LocalDateTime = LocalDateTime.now(),
         @OneToMany(mappedBy = "ean")
-        val vareListe: List<Vare> = mutableListOf()
+        val vareListe: List<Vare> = mutableListOf(),
+        val sum: Int = 0
 ) : Serializable {
     constructor(kvittering: Kvittering) : this()
 }

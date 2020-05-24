@@ -35,6 +35,10 @@ class MainWindow : View() {
     private val vm: SubtotalAppend by inject()
     private val vmsub: SubtotalStatus by inject()
 
+    init {
+
+    }
+
     override val root = borderpane {
         center {
             println(varelisten.size)
@@ -85,7 +89,7 @@ class MainWindow : View() {
                             this.clear()
                         }
                     }
-                }
+                }.requestFocus()
             }
             addClass(MainWindowStyle.tableclass)
         }
@@ -95,11 +99,18 @@ class MainWindow : View() {
             }
         }
         bottom {
-            label("bunntekst, knapper osv") {
+            hbox {
+                button("Bank") {}
+                button("Kontant") {}
+                button("Bong Journal") {}
+                button("Skriv kvittering") {}
                 addClass(Footer.wrapper)
             }
         }
         right {
+            vbox {
+
+            }
         }
         left {
         }
@@ -108,7 +119,6 @@ class MainWindow : View() {
 
 //Legger til pris ved bruk av FXEvent.
 class SubtotalAppend : ViewModel() {
-    val data = SimpleIntegerProperty()
     fun save(pris: Int) {
         fire(DataSavedEvent(pris))
     }
