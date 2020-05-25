@@ -10,16 +10,16 @@ import java.time.LocalDateTime
 
 class Logger {
 
+    private val buttonarray: Array<ButtonType> = arrayOf(
+            ButtonType.CLOSE
+    )
+
     fun printConsole(message: String) {
         println(message)
     }
 
     //Alert-klasse
     fun alertOnLogin(message: String) {
-        val logger = Logger()
-        val buttonarray: Array<ButtonType> = arrayOf(
-                ButtonType.CLOSE
-        )
         alert(
                 Alert.AlertType.ERROR,
                 header = message,
@@ -28,10 +28,26 @@ class Logger {
                 actionFn = {
                     buttonType ->
                     if (buttonType.buttonData == ButtonBar.ButtonData.CANCEL_CLOSE) {
-                        logger.printConsole("Alert closed successfully at: ${LocalDateTime.now()}")
+                        printConsole("Alert ${Alert.AlertType.ERROR} closed successfully at: ${LocalDateTime.now()}")
                     }
                 }
         )
+    }
+
+    fun alertOnMain(error: String) {
+        alert(
+                Alert.AlertType.WARNING,
+                header = error,
+                buttons = *buttonarray,
+                title = "Informasjon",
+                actionFn = {
+                    buttonType ->
+                    if (buttonType.buttonData == ButtonBar.ButtonData.CANCEL_CLOSE) {
+                        printConsole("Alert ${Alert.AlertType.WARNING} closed successfully at: ${LocalDateTime.now()}")
+                    }
+                }
+        )
+        }
     }
 
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component
 class Runner(private val vareService: VareService) : CommandLineRunner {
 
     lateinit var vareliste: List<Vare>
-
     /*
     val nyevarer = mutableListOf<Vare>(
             Vare(1234567890123, "drue", 10, "blå drue",

@@ -10,8 +10,7 @@ data class Salg(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val salgsid: Int = 0,
-        @OneToOne(mappedBy = "kvitteringsid")
-        val kvittering: Kvittering = Kvittering(),
+        val kvitteringsid: Int = 0,
         val timestamp: LocalDateTime = LocalDateTime.now(),
         var betalt: Boolean = false,
         var parkert: Boolean = false,

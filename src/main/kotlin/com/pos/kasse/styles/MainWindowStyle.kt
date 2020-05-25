@@ -1,5 +1,6 @@
 package com.pos.kasse.styles
 
+import javafx.scene.control.TextFormatter
 import javafx.scene.layout.HBox
 import javafx.scene.paint.Color
 import tornadofx.*
