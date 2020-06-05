@@ -1,14 +1,31 @@
 package com.pos.kasse.config
 
+import com.pos.kasse.entities.Bruker
+import com.pos.kasse.entities.Kvittering
 import com.pos.kasse.entities.Vare
+import com.pos.kasse.services.LoginService
 import com.pos.kasse.services.VareService
 import org.springframework.boot.CommandLineRunner
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 
 @Component
-class Runner(private val vareService: VareService) : CommandLineRunner {
+class Runner(private val vareService: VareService, private val loginService: LoginService)
+    : CommandLineRunner {
 
+    /*
+    Holder data om alle varer i databasen som en lokal referanse.
+    Sjekkes for oppdateringer jevnlig.
+     */
     lateinit var vareliste: List<Vare>
+
+    /*
+    Holder referanse om siste 2000 kvitteringer som er lagt til i databasen
+     */
+    lateinit var kvitteringsliste: List<Kvittering>
+
+    private val bcryptPassword: BCryptPasswordEncoder = BCryptPasswordEncoder()
+
     /*
     val nyevarer = mutableListOf<Vare>(
             Vare(1234567890123, "drue", 10, "blå drue",
@@ -32,12 +49,16 @@ class Runner(private val vareService: VareService) : CommandLineRunner {
      */
 
     override fun run(vararg args: String?) {
-
         vareliste = vareService.hentAlleVarer()
         println("Totalt ${vareliste.size} antall varer...")
+
     }
 
     fun leggTilVarer(nyeVarer: List<Vare>) {
         vareService.leggTilAlleVarer(nyeVarer.toMutableList())
+    }
+
+    fun leggTilBruker(bruker: Bruker) {
+        loginService.lagNyBruker(bruker)
     }
 }

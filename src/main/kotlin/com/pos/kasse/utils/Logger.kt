@@ -1,11 +1,10 @@
 package com.pos.kasse.utils
 
-import com.pos.kasse.views.MainWindow
+import com.pos.kasse.entities.Kvittering
 import javafx.scene.control.Alert
 import javafx.scene.control.ButtonBar
 import javafx.scene.control.ButtonType
-import javafx.scene.input.KeyCode
-import tornadofx.*
+import tornadofx.alert
 import java.time.LocalDateTime
 
 class Logger {
@@ -36,18 +35,31 @@ class Logger {
 
     fun alertOnMain(error: String) {
         alert(
-                Alert.AlertType.WARNING,
-                header = error,
+            Alert.AlertType.WARNING,
+            header = error,
+            buttons = *buttonarray,
+            title = "Informasjon",
+            actionFn = {
+                buttonType ->
+                if (buttonType.buttonData == ButtonBar.ButtonData.CANCEL_CLOSE) {
+                    printConsole("Alert ${Alert.AlertType.WARNING} closed successfully at: ${LocalDateTime.now()}")
+                }
+            }
+        )
+    }
+
+    fun printReceipt(kvittering: Kvittering) {
+        alert(
+                Alert.AlertType.NONE,
+                header = "Kvitteringsnr ${kvittering.kvitteringsid}",
                 buttons = *buttonarray,
-                title = "Informasjon",
+                content = kvittering.toString(),
                 actionFn = {
                     buttonType ->
                     if (buttonType.buttonData == ButtonBar.ButtonData.CANCEL_CLOSE) {
-                        printConsole("Alert ${Alert.AlertType.WARNING} closed successfully at: ${LocalDateTime.now()}")
+                        printConsole("Receipt no. ${kvittering.kvitteringsid} printed at: ${LocalDateTime.now()}")
                     }
                 }
         )
-        }
     }
-
 }

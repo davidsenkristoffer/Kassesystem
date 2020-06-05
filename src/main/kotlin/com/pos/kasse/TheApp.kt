@@ -4,7 +4,7 @@ import com.pos.kasse.styles.Footer
 import com.pos.kasse.styles.LoginStyle
 import com.pos.kasse.styles.MainWindowStyle
 import com.pos.kasse.styles.Navbar
-import com.pos.kasse.views.Login
+import com.pos.kasse.views.LoginView
 import javafx.stage.Stage
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -18,7 +18,7 @@ import kotlin.reflect.KClass
 
 @SpringBootApplication
 class TheApp: App() {
-    override val primaryView = Login::class
+    override val primaryView = LoginView::class
     private lateinit var context: ConfigurableApplicationContext
 
     init {

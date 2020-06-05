@@ -5,7 +5,7 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.paint.Color
 import tornadofx.*
 
-class Varesoek : View() {
+class ItemSearchView : View() {
 
     override val root = borderpane {
 

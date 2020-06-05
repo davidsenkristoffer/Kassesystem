@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component
 @Component
 class KvitteringService(private val kvitteringRepository: KvitteringRepository) : ImplKvitteringService {
 
-    override fun leggTilKvittering(kvittering: Kvittering) {
-        kvitteringRepository.save(kvittering)
+    override fun leggTilKvittering(kvittering: Kvittering): Kvittering {
+        return kvitteringRepository.save(kvittering)
     }
 
     override fun finnKvittering(id: Int): Kvittering {

@@ -1,6 +1,7 @@
 package com.pos.kasse.views
 
 import com.pos.kasse.adminviews.Admin
+import com.pos.kasse.controllers.LoginController
 import com.pos.kasse.entities.Bruker
 import com.pos.kasse.services.LoginService
 import com.pos.kasse.styles.Footer
@@ -12,9 +13,10 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.scene.paint.Color
 import tornadofx.*
 
-class Login : View() {
+class LoginView : View() {
 
     private val loginService: LoginService by di()
+    private val loginController: LoginController by inject()
     private val bruker = Bruker()
     private val brukernavnProp = SimpleStringProperty()
     private val passordProp = SimpleStringProperty()
@@ -49,16 +51,15 @@ class Login : View() {
                             bruker.brukernavn = brukernavnProp.value
                             bruker.passord = passordProp.value
                             try {
-                                loginCode = performLogin(bruker)
+                                loginCode = loginController.performLogin(bruker)
                             } catch (e: NoSuchElementException) {
                                 e.message
                             }
                             if (loginCode == 2) {
-                                this@Login.replaceWith(MainWindow::class,
+                                this@LoginView.replaceWith(MainWindow::class,
                                         transition = ViewTransition.
                                         FadeThrough(1.seconds ,Color.TRANSPARENT))
                             } else {
-
                                 logger.alertOnLogin("Feil brukernavn eller passord")
                             }
                         }
@@ -70,7 +71,7 @@ class Login : View() {
             hbox {
                 button("Admin") {
                     setOnAction {
-                        this@Login.replaceWith(Admin::class, transition = ViewTransition
+                        this@LoginView.replaceWith(Admin::class, transition = ViewTransition
                                 .FadeThrough(1.seconds, Color.TRANSPARENT))
                     }
                 }
@@ -79,20 +80,6 @@ class Login : View() {
                 addClass(Footer.wrapper)
             }
         }
-    }
-    private fun performLogin(bruker: Bruker): Int {
-        val logger = Logger()
-        val loginMessage: String
-
-        if (loginService.kontrollerLogin(bruker)) {
-            loginCode = 2
-            loginMessage = "Kode: ${loginCode}, ${bruker.brukernavn} logges inn..."
-        } else {
-            loginCode = 1
-            loginMessage = "Kode: ${loginCode}, ${bruker.brukernavn} er ikke logget inn!"
-        }
-        logger.printConsole(loginMessage)
-        return loginCode
     }
     //TODO: Overkjøre hovedvindu?
     init {

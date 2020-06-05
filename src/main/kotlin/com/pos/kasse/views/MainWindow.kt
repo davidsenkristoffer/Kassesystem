@@ -1,25 +1,26 @@
 package com.pos.kasse.views
 
-import com.pos.kasse.controllers.MainWindowController
+import com.pos.kasse.controllers.PaymentController
+import com.pos.kasse.controllers.SalesController
 import com.pos.kasse.controllers.SubtotalStatus
 import com.pos.kasse.entities.Vare
-import com.pos.kasse.services.VareService
 import com.pos.kasse.styles.Footer
 import com.pos.kasse.styles.MainWindowStyle
 import com.pos.kasse.styles.Navbar
 import com.pos.kasse.utils.Logger
-import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleLongProperty
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
+import javafx.scene.paint.Color
 import javafx.util.Duration
 import tornadofx.*
 
 class MainWindow : View() {
     private val logger = Logger()
-    private val maincontroller: MainWindowController by inject()
+    private val salescontroller: SalesController by inject()
+    private val paymentController: PaymentController by inject()
 
     //plu eller ean
     private var ean: Long = 0
@@ -35,7 +36,7 @@ class MainWindow : View() {
                 TODO: Første input registreres ikke.
                 TODO: scrollTo() i tableview skal alltid scrolle til nederste objekt.
                  */
-                tableview(maincontroller.observablelist) {
+                tableview(salescontroller.observablelist) {
                     readonlyColumn("Navn", Vare::navn).sortType
                     readonlyColumn("Pris", Vare::pris).sortType
                     columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY
@@ -48,7 +49,7 @@ class MainWindow : View() {
                 }
                 textfield {
                     setOnKeyPressed {
-                        if (this.length > 15) {
+                        if (salescontroller.checkEanInputLength(this.length)) {
                             logger.alertOnMain("For mange tall!")
                             this.clear()
                         }
@@ -57,10 +58,10 @@ class MainWindow : View() {
                             this.bind(eanProperty)
                             ean = eanProperty.get()
                             if (this.length == 3 || this.length == 4) {
-                                maincontroller.addPluToTable(ean)
+                                salescontroller.addPluToTable(ean)
                             }
                             if (this.length == 13) {
-                                maincontroller.addEanToTable(ean)
+                                salescontroller.addEanToTable(ean)
                             }
                             runLater(Duration.ONE) {
                                 this.clear()
@@ -81,10 +82,25 @@ class MainWindow : View() {
         }
         bottom {
             hbox {
-                button("Bank") {}
-                button("Kontant") {}
-                button("Bong Journal") {}
-                button("Skriv kvittering") {}
+                button("Bank") {
+                    setOnAction {
+                        if (salescontroller.checkItems()) {
+                            this@MainWindow.replaceWith(PaymentView::class,
+                                    transition = ViewTransition.FadeThrough(1.seconds, Color.TRANSPARENT))
+                        }
+                    }
+                }
+                button("Kontant") {
+                    setOnAction { logger.alertOnMain("Datamaskinen tar ikke kontant... enda.") }
+                }
+                button("Bong Journal") {
+                    setOnAction {
+                        this@MainWindow.replaceWith(ReceiptJournalView::class,
+                                transition = ViewTransition.FadeThrough(1.seconds, Color.TRANSPARENT)) }
+                }
+                button("Skriv kvittering") {
+                    setOnAction { salescontroller.writeLastReceipt() }
+                }
                 addClass(Footer.wrapper)
             }
         }

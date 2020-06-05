@@ -9,9 +9,9 @@ import javax.persistence.*
 data class Salg(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val salgsid: Int = 0,
-        val kvitteringsid: Int = 0,
-        val timestamp: LocalDateTime = LocalDateTime.now(),
+        val salgsid: Int? = null,
+        var kvitteringsid: Int? = null,
+        var timestamp: LocalDateTime? = null,
         var betalt: Boolean = false,
         var parkert: Boolean = false,
         var mellomkunde: Boolean = false

@@ -24,8 +24,7 @@ class LoginService(private val loginRepo: LoginRepository) : ImplLoginService {
     override fun kontrollerLogin(bruker : Bruker): Boolean {
         val hashedPassord: String = bruker.passord
         val dbBruker: Bruker = loginRepo.findById(bruker.brukernavn).orElseThrow()
-        //return bcryptPassword.matches(hashedPassord, dbBruker.passord)
-        return hashedPassord == dbBruker.passord
+        return bcryptPassword.matches(hashedPassord, dbBruker.passord)
     }
     override fun lagNyBruker(bruker: Bruker) {
         loginRepo.save(bruker)

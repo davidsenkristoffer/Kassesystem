@@ -9,10 +9,16 @@ import javax.persistence.*
 data class Kvittering(
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val kvitteringsid: Int = 0,
-        val datoOgTid: LocalDateTime = LocalDateTime.now(),
+        var datoOgTid: LocalDateTime? = null,
         @OneToMany(mappedBy = "ean")
         val vareListe: List<Vare> = mutableListOf(),
-        val sum: Int = 0
+        var sum: Int? = null,
+        var betalingskode: String? = null
 ) : Serializable {
     constructor(kvittering: Kvittering) : this()
+
+    override fun toString(): String {
+        TODO("Implement visual representation of Kvittering.")
+    }
+
 }
