@@ -30,16 +30,19 @@ class SalesController : Controller() {
     //Holder siste kvittering
     private lateinit var lastReceipt: Kvittering
 
-    fun initNewSale(): Salg {
+    //Holder aktuelt salg
+    var sale: Salg
+
+    init {
+        sale = initNewSale()
+    }
+
+    private fun initNewSale(): Salg {
         return Salg()
     }
 
     fun checkEanInputLength(input: Int): Boolean {
         return input > 15
-    }
-
-    fun createNewKvittering(): Kvittering {
-        return Kvittering()
     }
 
     fun addPluToTable(input: Long) {

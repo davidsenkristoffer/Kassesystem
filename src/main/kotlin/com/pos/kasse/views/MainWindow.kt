@@ -3,6 +3,7 @@ package com.pos.kasse.views
 import com.pos.kasse.controllers.PaymentController
 import com.pos.kasse.controllers.SalesController
 import com.pos.kasse.controllers.SubtotalStatus
+import com.pos.kasse.entities.Salg
 import com.pos.kasse.entities.Vare
 import com.pos.kasse.styles.Footer
 import com.pos.kasse.styles.MainWindowStyle
@@ -20,7 +21,6 @@ import tornadofx.*
 class MainWindow : View() {
     private val logger = Logger()
     private val salescontroller: SalesController by inject()
-    private val paymentController: PaymentController by inject()
 
     //plu eller ean
     private var ean: Long = 0

@@ -15,7 +15,8 @@ import tornadofx.*
 
 class LoginView : View() {
 
-    private val loginService: LoginService by di()
+    //TODO: Trenger refaktorering
+
     private val loginController: LoginController by inject()
     private val bruker = Bruker()
     private val brukernavnProp = SimpleStringProperty()

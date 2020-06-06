@@ -11,7 +11,7 @@ data class Kvittering(
         val kvitteringsid: Int = 0,
         var datoOgTid: LocalDateTime? = null,
         @OneToMany(mappedBy = "ean")
-        val vareListe: List<Vare> = mutableListOf(),
+        var vareListe: List<Vare>? = null,
         var sum: Int? = null,
         var betalingskode: String? = null
 ) : Serializable {
