@@ -15,8 +15,15 @@ class PaymentView : View() {
     override val root = borderpane {
         center {
             label(pmstatus.statusmessage)
+            label("test")
         }
     }
+
+    //Kalles når PaymentView er iscenesatt.
+    override fun onDock() {
+        paymentController.pay(vmsub.lastNumber.get())
+    }
+
     fun changeToMainView() {
         this@PaymentView.replaceWith(MainWindow::class,
                 transition = ViewTransition.FadeThrough(1.seconds, Color.TRANSPARENT))

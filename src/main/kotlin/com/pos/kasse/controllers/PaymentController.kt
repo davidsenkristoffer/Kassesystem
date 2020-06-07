@@ -7,7 +7,9 @@ import com.pos.kasse.services.SalgService
 import com.pos.kasse.utils.Logger
 import javafx.beans.property.SimpleStringProperty
 import kotlinx.coroutines.*
-import tornadofx.*
+import tornadofx.Controller
+import tornadofx.FXEvent
+import tornadofx.ViewModel
 import java.time.LocalDateTime
 
 class PaymentController : Controller() {
@@ -24,22 +26,24 @@ class PaymentController : Controller() {
      */
     fun pay(subtotal: Int): Boolean {
         var successfulPayment = false
-        runAsync {
-            timeline {
-                pmAppend.save("Betal kr. $subtotal")
-                keyframe(5.seconds) {
-                    pmAppend.save("Betaler...")
-                    cycleCount = 1
-                }
-            }
+        runBlocking {
+            pmAppend.save("Betal kr. $subtotal")
+            logger.printConsole("Betal kr. $subtotal")
+            delay(2000)
+            pmAppend.save("Betaler...")
+            logger.printConsole("Betaler...")
+            delay(5000)
             successfulPayment = true
             pmAppend.save("Godkjent!")
+            logger.printConsole("godkjent")
         }
+
         if (successfulPayment) {
             finishSale(subtotal, salesController.sale)
         } else {
             pmAppend.save("Ikke godkjent, prøv igjen!")
             //Delay her?
+            Thread.sleep(2000)
             pay(subtotal)
         }
         return successfulPayment
@@ -52,20 +56,24 @@ class PaymentController : Controller() {
      */
     private fun finishSale(subtotal: Int, salg: Salg) {
         val kvittering = createNewKvittering()
-        runAsync {
-            kvittering.vareListe = salesController.observablelist
+        runBlocking {
             kvittering.datoOgTid = LocalDateTime.now()
             kvittering.sum = subtotal
             kvittering.betalingskode = "GODKJENT"
 
             salg.betalt = true
             salg.timestamp = kvittering.datoOgTid
-            }
+        }
+
         databaseCommitAsync(kvittering, salg)
+        // fire(replacewindow event her)
     }
 
     private fun createNewKvittering(): Kvittering {
-        return Kvittering()
+        return Kvittering(
+                vareListe = salesController.observablelist,
+                liste = salesController.observablelist.map { vare -> vare.ean }.toLongArray()
+        )
     }
 
     //TODO: Denne koden trenger testing

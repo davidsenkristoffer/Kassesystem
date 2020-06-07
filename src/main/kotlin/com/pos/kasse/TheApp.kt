@@ -44,15 +44,6 @@ class TheApp: App() {
         FX.dicontainer = object : DIContainer {
             override fun <T : Any> getInstance(type: KClass<T>): T = context.getBean(type.java)
         }
-        reloadStylesheetsOnFocus()
-        /**
-         * Important: For the reload to work, you must be running the JVM in debug mode
-         * and you must instruct your IDE to recompile before you switch back to your app.
-         * Without these steps, nothing will happen.
-         * This also applies to reloadViewsOnFocus() which is similar,
-         * but reloads the whole view instead of just the stylesheet.
-         * This way, you can evolve your UI very rapidly in a "code change, compile, refresh" manner.
-         */
     }
 
     override fun stop() {
