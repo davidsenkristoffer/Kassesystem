@@ -24,9 +24,9 @@ class PaymentView : View() {
         paymentController.pay(vmsub.lastNumber.get())
     }
 
-    fun changeToMainView() {
-        this@PaymentView.replaceWith(MainWindow::class,
-                transition = ViewTransition.FadeThrough(1.seconds, Color.TRANSPARENT))
+    override fun onUndock() {
+        paymentController.databaseCommitAsync(PaymentController.finishedKvittering, PaymentController.finishedSale)
+        paymentController.postPay(PaymentController.finishedKvittering)
     }
 
 }

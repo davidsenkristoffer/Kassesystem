@@ -28,7 +28,7 @@ class SalesController : Controller() {
     private val varelisten = startup.vareliste.asObservable()
 
     //Holder siste kvittering
-    private lateinit var lastReceipt: Kvittering
+    lateinit var lastReceipt: Kvittering
 
     //Holder aktuelt salg
     var sale: Salg
