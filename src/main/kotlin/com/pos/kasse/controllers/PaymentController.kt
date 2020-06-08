@@ -5,20 +5,20 @@ import com.pos.kasse.entities.Kvittering
 import com.pos.kasse.entities.Salg
 import com.pos.kasse.services.KvitteringService
 import com.pos.kasse.services.SalgService
-import com.pos.kasse.utils.Logger
-import com.pos.kasse.views.MainWindow
-import com.pos.kasse.views.PaymentView
 import javafx.beans.property.SimpleStringProperty
-import javafx.scene.paint.Color
-import kotlinx.coroutines.*
-import tornadofx.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import tornadofx.Controller
+import tornadofx.FXEvent
+import tornadofx.ViewModel
 import java.time.LocalDateTime
 
 class PaymentController : Controller() {
 
     private val kvitteringService: KvitteringService by di()
     private val salgService: SalgService by di()
-    private val logger = Logger()
     private val pmAppend: PaymentAppend by inject()
     private val salesController: SalesController by inject()
     private val runner: Runner by di()
@@ -32,29 +32,24 @@ class PaymentController : Controller() {
     Kalles når MainView skifter til PaymentView
     Simulerer en betaling, som pr nå alltid godkjennes
      */
-    fun pay(subtotal: Int){
+    fun pay(subtotal: Int) {
         var successfulPayment = false
-        runBlocking {
             pmAppend.save("Betal kr. $subtotal")
-            logger.printConsole("Betal kr. $subtotal")
+            Thread.sleep(1500)
 
-            delay(2000)
             pmAppend.save("Betaler...")
-            logger.printConsole("Betaler...")
+            Thread.sleep(3500)
 
-            delay(5000)
             successfulPayment = true
             pmAppend.save("Godkjent!")
-            logger.printConsole("godkjent")
-        }
+            Thread.sleep(1000)
+
         if (successfulPayment) {
             finishedKvittering = finishKvittering(subtotal)
             finishedSale = finishSale(salesController.sale, finishedKvittering)
-            //Fire event for å bytte view.
         }
         else {
             pmAppend.save("Ikke godkjent, prøv igjen!")
-            //Delay her?
             Thread.sleep(2000)
             pay(subtotal)
         }
@@ -74,7 +69,7 @@ class PaymentController : Controller() {
         val kvittering = createNewKvittering()
         kvittering.datoOgTid = LocalDateTime.now()
         kvittering.sum = subtotal
-        kvittering.betalingskode = "GODKJENT"
+        kvittering.betalingskode = "BANK GODKJENT"
         return kvittering
     }
 
@@ -85,21 +80,20 @@ class PaymentController : Controller() {
         )
     }
 
-    //TODO: Denne koden trenger testing
-
+    /*
+    databaseCommitAsync(...) kjører en coroutine, og persister i databasen.
+    Denne kan kjøre i bakgrunnen fordi den ikke er kritisk for applikasjonen.
+     */
     fun databaseCommitAsync(kvittering: Kvittering, salg: Salg) =
             CoroutineScope(context = Dispatchers.Default).launch {
-        val kvitteringsid = commitKvitteringToDB(kvittering)
-        salg.kvitteringsid = kvitteringsid
-        val salgsid = commitSalgToDB(salg)
-        logger.printConsole("Salg med id $salgsid er lagt til i databasen")
+                val kvitteringsid = commitKvitteringToDB(kvittering)
+                salg.kvitteringsid = kvitteringsid
+                commitSalgToDB(salg)
     }
     private suspend fun commitKvitteringToDB(kvittering: Kvittering) = withContext(Dispatchers.Default) {
         val newKvittering: Kvittering = kvitteringService.leggTilKvittering(kvittering)
-        logger.printConsole("Kvittering med id ${newKvittering.kvitteringsid} er lagt til i databasen.")
         return@withContext newKvittering.kvitteringsid
     }
-
     private suspend fun commitSalgToDB(salg: Salg) = withContext(Dispatchers.Default) {
         val newSalg = salgService.leggTilSalg(salg)
         return@withContext newSalg.salgsid
@@ -118,7 +112,7 @@ class PaymentController : Controller() {
     }
     //Viser statusmelding i PaymentView.
     class PaymentStatus : ViewModel() {
-        val statusmessage = SimpleStringProperty()
+        var statusmessage = SimpleStringProperty()
         init {
             subscribe<PaymentEvent> {
                 statusmessage.value = it.message

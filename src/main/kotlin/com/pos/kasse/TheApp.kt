@@ -31,8 +31,8 @@ class TheApp: App() {
     override fun start(stage: Stage) {
         try {
             super.start(stage)
-            stage.width = 800.0
-            stage.height = 600.0
+            stage.width = 600.0
+            stage.height = 400.0
         } catch (e: Exception) {
             e.message
         }

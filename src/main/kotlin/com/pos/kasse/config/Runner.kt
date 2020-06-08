@@ -17,12 +17,12 @@ class Runner(private val vareService: VareService, private val loginService: Log
 
     /*
     Holder data om alle varer i databasen som en lokal referanse.
-    Sjekkes for oppdateringer jevnlig.
+    Skal sjekkes for oppdateringer jevnlig.
      */
     lateinit var vareliste: List<Vare>
 
     /*
-    Holder referanse om siste 2000 kvitteringer som er lagt til i databasen
+    Holder referanse om kvitteringer som er lagt til i databasen
      */
     lateinit var kvitteringsliste: MutableList<Kvittering>
 
@@ -31,6 +31,9 @@ class Runner(private val vareService: VareService, private val loginService: Log
     override fun run(vararg args: String?) {
         vareliste = vareService.hentAlleVarer()
         println("Totalt ${vareliste.size} antall varer...")
+
+        kvitteringsliste = kvitteringService.hentAlleKvitteringer() as MutableList<Kvittering>
+        println("Totalt ${kvitteringsliste.size} antall kvitteringer...")
 
     }
 

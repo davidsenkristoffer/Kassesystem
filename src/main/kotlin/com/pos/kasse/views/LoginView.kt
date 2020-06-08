@@ -64,9 +64,9 @@ class LoginView : View() {
                                 logger.alertOnLogin("Feil brukernavn eller passord")
                             }
                         }
-                    }
+                    }.isDefaultButton = true
                 }
-            }
+            }.requestFocus()
         }
         bottom {
             hbox {
@@ -85,8 +85,10 @@ class LoginView : View() {
     //TODO: Overkjøre hovedvindu?
     init {
         with (root) {
-            prefWidth = 400.0
-            prefHeight = 200.0
+            root.usePrefHeight = true
+            root.usePrefWidth = true
+            prefHeight = 300.0
+            prefWidth = 300.0
             title = "Login"
         }
     }

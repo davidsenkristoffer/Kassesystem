@@ -15,5 +15,9 @@ class KvitteringService(private val kvitteringRepository: KvitteringRepository) 
         return kvitteringRepository.findById(id).orElseThrow()
     }
 
+    override fun hentAlleKvitteringer(): MutableIterable<Kvittering> {
+        return kvitteringRepository.findAll()
+    }
+
 
 }

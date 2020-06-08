@@ -8,4 +8,6 @@ interface ImplKvitteringService {
 
     fun finnKvittering(id: Int): Kvittering
 
+    fun hentAlleKvitteringer(): MutableIterable<Kvittering>
+
 }

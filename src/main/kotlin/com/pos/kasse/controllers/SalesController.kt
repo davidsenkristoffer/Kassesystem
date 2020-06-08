@@ -4,8 +4,6 @@ import com.pos.kasse.config.Runner
 import com.pos.kasse.entities.Kvittering
 import com.pos.kasse.entities.Salg
 import com.pos.kasse.entities.Vare
-import com.pos.kasse.services.SalgService
-import com.pos.kasse.services.VareService
 import com.pos.kasse.utils.Logger
 import javafx.beans.property.SimpleIntegerProperty
 import tornadofx.Controller
@@ -16,8 +14,6 @@ import tornadofx.asObservable
 class SalesController : Controller() {
 
     private val startup: Runner by di()
-    private val vareService: VareService by di()
-    private val salgService: SalgService by di()
     private val vm: SubtotalAppend by inject()
     private val logger = Logger()
 
@@ -35,9 +31,10 @@ class SalesController : Controller() {
 
     init {
         sale = initNewSale()
+        lastReceipt = startup.kvitteringsliste.last()
     }
 
-    private fun initNewSale(): Salg {
+    fun initNewSale(): Salg {
         return Salg()
     }
 

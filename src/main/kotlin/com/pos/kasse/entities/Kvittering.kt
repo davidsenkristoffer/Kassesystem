@@ -26,7 +26,10 @@ data class Kvittering(
     constructor(kvittering: Kvittering) : this()
 
     override fun toString(): String {
-        TODO("Implement visual representation of Kvittering.")
+        //TODO: Implementer resten av toString()
+        val firstline = "ID: $kvitteringsid \t\t\t ${datoOgTid?.dayOfMonth}.${datoOgTid?.monthValue}.${datoOgTid?.year} \n"
+        val secondline = "Subtotal: $sum \n $betalingskode"
+        return firstline + secondline
     }
 
 }

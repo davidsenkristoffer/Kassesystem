@@ -1,9 +1,7 @@
 package com.pos.kasse.views
 
-import com.pos.kasse.controllers.PaymentController
 import com.pos.kasse.controllers.SalesController
 import com.pos.kasse.controllers.SubtotalStatus
-import com.pos.kasse.entities.Salg
 import com.pos.kasse.entities.Vare
 import com.pos.kasse.styles.Footer
 import com.pos.kasse.styles.MainWindowStyle
@@ -111,5 +109,12 @@ class MainWindow : View() {
         }
         left {
         }
+    }
+
+    override fun onDock() {
+        salescontroller.cleanObservablelist()
+        salescontroller.initNewSale()
+        vmsub.lastNumber.set(0)
+
     }
 }
