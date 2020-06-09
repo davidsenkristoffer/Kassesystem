@@ -75,8 +75,8 @@ class PaymentController : Controller() {
 
     private fun createNewKvittering(): Kvittering {
         return Kvittering(
-                vareListe = salesController.observablelist,
-                liste = salesController.observablelist.map { vare -> vare.ean }.toLongArray()
+                vareListe = salesController.observablelist.toMutableList(),
+                byteliste = salesController.observablelist.map { vare -> vare.ean }.toLongArray()
         )
     }
 

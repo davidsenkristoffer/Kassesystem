@@ -14,10 +14,10 @@ data class Kvittering(
         var datoOgTid: LocalDateTime? = null,
         //Liste på applikasjonsnivå
         @Transient
-        var vareListe: List<Vare>? = null,
+        var vareListe: MutableList<Vare>? = null,
         //Referanseliste på databasenivå
-        @Column(name = "liste")
-        var liste: LongArray? = null,
+        @Column(name = "byteliste")
+        var byteliste: LongArray? = null,
         @Column(name = "sum")
         var sum: Int? = null,
         @Column(name = "betalingskode")
@@ -28,8 +28,11 @@ data class Kvittering(
     override fun toString(): String {
         //TODO: Implementer resten av toString()
         val firstline = "ID: $kvitteringsid \t\t\t ${datoOgTid?.dayOfMonth}.${datoOgTid?.monthValue}.${datoOgTid?.year} \n"
-        val secondline = "Subtotal: $sum \n $betalingskode"
-        return firstline + secondline
+        val secondline = "Navn \t\t\t Pris \n"
+        val thirdline = "\t\t\t Subtotal: $sum \n $betalingskode"
+        return firstline + secondline + vareListe?.joinToString(separator = "\n") {
+            vare -> vare.navn + "\t\t\t" + vare.pris
+        } + "\n" + thirdline
     }
 
 }

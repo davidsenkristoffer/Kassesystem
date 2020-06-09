@@ -20,7 +20,7 @@ class SalesController : Controller() {
     //Liste av varer for det aktuelle salget.
     var observablelist = mutableListOf<Vare>().asObservable()
 
-    //Referanse for liste av varer i databasen.
+    //Referanse for byteliste av varer i databasen.
     private val varelisten = startup.vareliste.asObservable()
 
     //Holder siste kvittering
@@ -31,7 +31,7 @@ class SalesController : Controller() {
 
     init {
         sale = initNewSale()
-        lastReceipt = startup.kvitteringsliste.last()
+        if (startup.kvitteringsliste.isNotEmpty()) { lastReceipt = startup.kvitteringsliste.last() }
     }
 
     fun initNewSale(): Salg {
