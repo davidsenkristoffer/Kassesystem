@@ -30,7 +30,7 @@ class ReceiptJournalView : View() {
                 maxWidth = 400.0
                 onUserSelect(clickCount = 1) {
                     //TODO: NoClassDefFoundError
-                    kvittering -> println(kvittering.kvitteringsid)
+                    kvittering -> receiptController.display(kvittering)
                 }
             }
         }
@@ -39,8 +39,6 @@ class ReceiptJournalView : View() {
             //TODO: Forenkle
             if (receiptController.receiptProp.get() != null) {
                 text(receiptController.receiptProp.get().toString())
-            } else {
-                text("")
             }
         }
         //Ulike funksjoner
