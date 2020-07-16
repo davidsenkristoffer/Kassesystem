@@ -1,8 +1,6 @@
 package com.pos.kasse.views
 
 import com.pos.kasse.styles.Navbar
-import javafx.scene.input.MouseEvent
-import javafx.scene.paint.Color
 import tornadofx.*
 
 class ItemSearchView : View() {

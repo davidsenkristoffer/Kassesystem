@@ -9,4 +9,6 @@ interface ImplLoginService {
     fun kontrollerLogin(bruker : Bruker) : Boolean
 
     fun lagNyBruker(bruker : Bruker)
+
+    fun kontrollerAdminLogin(bruker : Bruker) : Boolean
 }

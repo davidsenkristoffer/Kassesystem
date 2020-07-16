@@ -5,7 +5,9 @@ import tornadofx.*
 
 class Admin : View() {
 
-    override val root: Parent
-        get() = TODO("Not yet implemented")
-
+    override val root = borderpane {
+        center {
+            label("Hello")
+        }
+    }
 }

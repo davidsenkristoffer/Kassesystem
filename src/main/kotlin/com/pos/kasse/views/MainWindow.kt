@@ -1,5 +1,6 @@
 package com.pos.kasse.views
 
+import com.pos.kasse.controllers.LoginController
 import com.pos.kasse.controllers.SalesController
 import com.pos.kasse.controllers.SubtotalStatus
 import com.pos.kasse.entities.Vare
@@ -13,8 +14,10 @@ import javafx.geometry.Pos
 import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
 import javafx.scene.paint.Color
+import javafx.scene.text.TextAlignment
 import javafx.util.Duration
 import tornadofx.*
+import java.time.Clock
 
 class MainWindow : View() {
     private val logger = Logger()
@@ -104,7 +107,15 @@ class MainWindow : View() {
         }
         right {
             vbox {
-
+                button("Logg ut") {
+                    setOnAction {
+                        this@MainWindow.replaceWith(LoginView::class,
+                                transition = ViewTransition.FadeThrough(1.seconds, Color.TRANSPARENT))
+                    }
+                }
+                label(LoginController.bruker.brukernavn) {
+                    textAlignment = TextAlignment.RIGHT
+                }
             }
         }
         left {
