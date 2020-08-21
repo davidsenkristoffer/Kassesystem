@@ -7,7 +7,9 @@ class Admin : View() {
 
     override val root = borderpane {
         center {
-            label("Hello")
+            form {
+
+            }
         }
     }
 }

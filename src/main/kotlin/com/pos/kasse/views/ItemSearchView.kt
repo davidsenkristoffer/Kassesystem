@@ -1,22 +1,38 @@
 package com.pos.kasse.views
 
-import com.pos.kasse.styles.Navbar
+import com.pos.kasse.controllers.ItemSearchController
+import com.pos.kasse.entities.Vare
+import javafx.beans.property.ReadOnlyListProperty
+import javafx.beans.property.SimpleStringProperty
+import javafx.beans.property.StringProperty
+import javafx.collections.ObservableList
 import tornadofx.*
 
 class ItemSearchView : View() {
 
+    private val itemSearchController: ItemSearchController by inject()
+
+    private var searchstring: String = ""
+    private val stringProp = SimpleStringProperty(this, "", searchstring)
+
     override val root = borderpane {
 
-        top = label("Davidsens Matkolonial") {
-            addClass(Navbar.wrapper) //adding stylesheet to borderpane
-        }
-
-        left = vbox {
-            button("Test1") {
-                useMaxSize = true
-            }
-            button("test2") {
-                useMaxSize = true
+        center {
+            vbox {
+                tableview(itemSearchController.itemList as ObservableList<Vare>) {
+                    readonlyColumn("EAN", Vare::ean) { sortOrder.add(this) }
+                    readonlyColumn("PLU", Vare::plu)
+                    readonlyColumn("Navn", Vare::navn)
+                    readonlyColumn("Pris", Vare::pris)
+                }
+                textfield {
+                    setOnKeyPressed {
+                        this.bind(stringProp)
+                        runAsync {
+                            itemSearchController.searchAsync(stringProp.get())
+                        }
+                    }
+                }
             }
         }
 

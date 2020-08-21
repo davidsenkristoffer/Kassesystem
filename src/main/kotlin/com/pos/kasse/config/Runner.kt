@@ -76,7 +76,7 @@ class Runner(private val vareService: VareService, private val loginService: Log
     Prosess som konverterer byteliste av alle varer i et Kvitterings-objekt til Vare-objekter.
     Argumentet for å gjøre det på denne måten er at det kun skjer ved oppstart av programmet.
     Ulempen er at jobben må ferdigstilles før første bruker logges på
-        -> Mulig at den må blokkere frem til den er ferdig?
+        TODO: Mulig at den må blokkere frem til den er ferdig?
      */
     fun convertListOfKvitteringer(mutablelist: MutableList<Kvittering>) =
             CoroutineScope(Dispatchers.Default).launch {

@@ -9,16 +9,20 @@ import tornadofx.*
 
 class LoginController : Controller() {
 
-    companion object MainWindow {
-        val bruker = Bruker()
-    }
-
     private val logger = Logger()
     private val loginService: LoginService by di()
     val brukernavnProp = SimpleStringProperty()
     val passordProp = SimpleStringProperty()
     private var loginCode = 0
     private var loginMessage = ""
+
+    companion object MainWindow {
+        lateinit var bruker: Bruker
+    }
+
+    init {
+        bruker = initNewBruker()
+    }
 
     fun checkEmptyProps() : Boolean {
         return (passordProp.value.isNullOrBlank() ||
@@ -54,15 +58,26 @@ class LoginController : Controller() {
         return loginCode
     }
 
+    /*
+    TODO: Fikse loggut -> logginn sekvens.
+    onDock()
+     */
     fun cleanBrukerProps() {
-        bruker.brukernavn = ""
-        bruker.passord = ""
+        bruker = initNewBruker()
         bruker.privilege = false
     }
 
+    /*
+    onUndock()
+     */
     fun cleanFields() {
-        brukernavnProp.set("")
-        passordProp.set("")
+        brukernavnProp.value = ""
+        passordProp.value = ""
+        loginCode = 0
+    }
+
+    private fun initNewBruker() : Bruker {
+        return Bruker()
     }
 
 }

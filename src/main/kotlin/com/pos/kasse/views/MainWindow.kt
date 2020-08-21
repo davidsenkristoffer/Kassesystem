@@ -102,6 +102,11 @@ class MainWindow : View() {
                 button("Skriv kvittering") {
                     setOnAction { salescontroller.writeLastReceipt() }
                 }
+                button("Varesøk") {
+                    setOnAction {
+                        this@MainWindow.replaceWith(ItemSearchView::class,
+                            transition = ViewTransition.FadeThrough(1.seconds, Color.TRANSPARENT)) }
+                }
                 addClass(Footer.wrapper)
             }
         }

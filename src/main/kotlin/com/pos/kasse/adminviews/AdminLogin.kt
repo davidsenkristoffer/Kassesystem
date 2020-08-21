@@ -3,7 +3,6 @@ package com.pos.kasse.adminviews
 import com.pos.kasse.controllers.LoginController
 import com.pos.kasse.styles.LoginStyle
 import com.pos.kasse.utils.Logger
-import com.pos.kasse.views.MainWindow
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.scene.paint.Color
 import tornadofx.*
