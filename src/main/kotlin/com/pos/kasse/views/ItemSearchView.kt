@@ -6,6 +6,7 @@ import javafx.beans.property.ReadOnlyListProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.beans.property.StringProperty
 import javafx.collections.ObservableList
+import javafx.scene.paint.Color
 import tornadofx.*
 
 class ItemSearchView : View() {
@@ -31,6 +32,13 @@ class ItemSearchView : View() {
                         runAsync {
                             itemSearchController.searchAsync(stringProp.get())
                         }
+                    }
+                }
+                button("Tilbake") {
+                    setOnAction {
+                        this@ItemSearchView.replaceWith(MainWindow::class,
+                                transition = ViewTransition.
+                                FadeThrough(1.seconds , Color.TRANSPARENT))
                     }
                 }
             }
