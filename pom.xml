@@ -113,7 +113,22 @@
             <artifactId>tornadofx-controlsfx</artifactId>
             <version>0.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-datetime-jvm</artifactId>
+            <version>0.1.0</version>
+        </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>kotlinx</id>
+            <name>kotlinx</name>
+            <url>https://kotlin.bintray.com/kotlinx/</url>
+        </repository>
+    </repositories>
 
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>

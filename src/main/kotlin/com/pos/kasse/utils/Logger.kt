@@ -22,7 +22,7 @@ class Logger {
         alert(
                 Alert.AlertType.ERROR,
                 header = message,
-                buttons = *buttonarray,
+                buttons = buttonarray,
                 title = "Login",
                 actionFn = {
                     buttonType ->
@@ -37,7 +37,7 @@ class Logger {
         alert(
             Alert.AlertType.WARNING,
             header = error,
-            buttons = *buttonarray,
+            buttons = buttonarray,
             title = "Informasjon",
             actionFn = {
                 buttonType ->
@@ -52,7 +52,7 @@ class Logger {
         alert(
                 Alert.AlertType.NONE,
                 header = "Kvitteringsnr ${kvittering.kvitteringsid}",
-                buttons = *buttonarray,
+                buttons = buttonarray,
                 content = kvittering.toString(),
                 actionFn = {
                     buttonType ->
