@@ -3,6 +3,8 @@ package com.pos.kasse.controllers
 import com.pos.kasse.config.Runner
 import com.pos.kasse.entities.Kvittering
 import com.pos.kasse.entities.Salg
+import com.pos.kasse.messagequeue.Publisher
+import com.pos.kasse.messagequeue.Salgsmelding
 import com.pos.kasse.services.KvitteringService
 import com.pos.kasse.services.SalgService
 import javafx.beans.property.SimpleStringProperty
@@ -89,6 +91,7 @@ class PaymentController : Controller() {
                 val kvitteringsid = commitKvitteringToDB(kvittering)
                 salg.kvitteringsid = kvitteringsid
                 commitSalgToDB(salg)
+                Salgsmelding.createMelding(salg, kvittering)
     }
     private suspend fun commitKvitteringToDB(kvittering: Kvittering) = withContext(Dispatchers.Default) {
         val newKvittering: Kvittering = kvitteringService.leggTilKvittering(kvittering)

@@ -47,22 +47,28 @@ class Runner(private val vareService: VareService, private val loginService: Log
         logger = Logger()
         kvitteringsliste = mutableListOf()
 
-        val nyeV = listOf(
-                Vare(7020655841165, "Lettkokte Havregryn Urkraft", 25,
-                        "Norgesmøllene AS", sortimentskode = "A1", kategori = "Tørr"),
-                Vare(7032069723586, "Økologisk Olivenolje", 85, "Kolonihagen",
-                        sortimentskode = "A2", kategori = "Tørr"),
-                Vare(5021991941757, "Kamillete Snore & Peace", 40,
-                        "Clipper Teas AS", sortimentskode = "A2", kategori = "Tørr"),
-                Vare(7032069730249, "Pizzamel Tipo 00", 35, "Kolonihagen",
-                        sortimentskode = "A2", kategori = "Tørr"),
-                Vare(7038080080882, "Mors Pizzagjær", 20, "Idun Industri AS",
-                        sortimentskode = "A1", kategori = "Tørr")
+        //27.okt
+        val nyeV2 = listOf(
+                Vare(7070866027872, "Möllers Dobbel", 89, "Orkla Health AS",null, "A1","Kategori"),
+                Vare(7026450051051, "Honning Akasie", 55, "Honningcentralen SA", null, "A1", "Tørr"),
+                Vare(7026450030124, "Sommerhonning", 69, "Honningcentralen SA", null, "A2", "Tørr"),
+                Vare(8003496060024, "Finhakkede Tomater", 13, "Gruppo Petti S.p.A.", null, "A1", "Tørr"),
+                Vare(70111019, "Tomatpuré", 5, "Stavland AS", null, "A1", "Tørr"),
+                Vare(7622210115782, "Vaniljesukker", 20, "Mondelez Norge", null, "A1", "Tørr"),
+                Vare(7032069724538, "Sesamfrø Økologisk", 29, "Automatpack AS for Rema 1000 AS", null, "A1", "Tørr"),
+                Vare(7622210115720, "Bakepulver", 20, "Mondelez Norge", null, "A1", "Tørr"),
+                Vare(7032069724514, "Solsikkekjerner Økologisk", 29, "Automatpack AS for Rema 1000 AS", null, "A1", "Tørr"),
+                Vare(7032069731055, "Pizzasaus Økologisk", 25, "Fattorie Umbre srl.", null, "A1", "Tørr"),
+                Vare(7032069714812, "Mais 3 pk", 6, "Seneca Foods Corporation", null, "A1", "Tørr"),
+                Vare(8076808201293, "Tagliatelle All' Uovo", 39, "Barilla Norge AS", null, "A1", "Tørr"),
+                Vare(7038010019777, "Jarlsberg Skivet", 43, "Tine SA", null, "A1", "Kjøl"),
+                Vare(7070097079022, "Parmaskinke", 39, "Taga Foods AS", null, "A2", "Kjøl")
+
         )
         /*
         Uncomment to add items to the database...
          */
-        //leggTilVarer(nyeV)
+        leggTilVarer(nyeV2)
 
         vareliste = vareService.hentAlleVarer()
         logger.printConsole("Totalt ${vareliste.size} antall varer...")
