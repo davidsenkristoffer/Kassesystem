@@ -36,6 +36,7 @@ class PaymentView : View() {
     override fun onUndock() {
         paymentController.databaseCommitAsync(PaymentController.finishedKvittering, PaymentController.finishedSale)
         paymentController.postPay(PaymentController.finishedKvittering)
+        paymentController.postToServer(PaymentController.finishedSale, PaymentController.finishedKvittering)
         pmstatus.statusmessage.set("")
     }
 

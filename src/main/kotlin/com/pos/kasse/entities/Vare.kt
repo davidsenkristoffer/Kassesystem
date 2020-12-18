@@ -1,6 +1,6 @@
 package com.pos.kasse.entities
-import java.io.Serializable
 import javax.persistence.*
+import java.io.Serializable
 
 /**
  * Endre pris til double
@@ -10,7 +10,6 @@ import javax.persistence.*
 
 @Entity
 @javax.persistence.Table(name = "vare", schema = "varer")
-@kotlinx.serialization.Serializable
 data class Vare(
         @Id
         val ean: Long = 0,

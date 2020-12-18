@@ -16,7 +16,7 @@ object Salgsmelding {
                 salgsMap.putIfAbsent(it, 1.0) ?: salgsMap[it] to salgsMap[it]?.plus(1.0)
             }
         }
-        return Json.encodeToString(salgsMap).also { Publisher.publish(it) }
+        return Json.encodeToString(salgsMap)
     }
 
 }

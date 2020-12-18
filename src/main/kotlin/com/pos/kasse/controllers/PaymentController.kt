@@ -102,6 +102,11 @@ class PaymentController : Controller() {
         return@withContext newSalg.salgsid
     }
 
+    fun postToServer(salg: Salg, kvittering: Kvittering) =
+        CoroutineScope(context = Dispatchers.IO).launch {
+            Salgsmelding.createMelding(salg, kvittering).also { Publisher.publish(it) }
+        }
+
     fun postPay(finishedKvittering: Kvittering) = CoroutineScope(context = Dispatchers.Default).launch {
         runner.addKvitteringToList(finishedKvittering)
         salesController.lastReceipt = finishedKvittering

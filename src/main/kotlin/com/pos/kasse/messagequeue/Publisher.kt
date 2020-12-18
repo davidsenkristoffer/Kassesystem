@@ -1,38 +1,31 @@
 package com.pos.kasse.messagequeue
 
-import com.rabbitmq.client.Channel
-import com.rabbitmq.client.Connection
-import com.rabbitmq.client.ConnectionFactory
-import java.io.IOException
-import java.nio.charset.StandardCharsets
+import com.pos.kasse.utils.URL_API
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import okio.IOException
 
 object Publisher {
 
-    var connectionfactory: ConnectionFactory = ConnectionFactory()
-    lateinit var connection: Connection
-    lateinit var channel: Channel
-    init {
-        connectionfactory.host = "localhost"
-        try {
-            connection = connectionfactory
-                    .newConnection("ampg://vare-api:varer@localhost:5672")
-            channel = connection.createChannel()
-            channel.queueDeclare("Salgsmelding", false, true, false, null)
-        } catch (e: Exception) { print(e.stackTrace) }
-    }
+    private val client = OkHttpClient().newBuilder().build()
 
-    fun publish(message: String) {
+    /*
+    TODO:
+    Autentisering med sesjon.
+     */
+    fun publish(salgsmelding: String) {
+        val request = Request.Builder()
+            .url("$URL_API/kasse/salg")
+            .post(salgsmelding
+                .toRequestBody(contentType = "application/json".toMediaTypeOrNull()))
+            .addHeader("Content-Type", "application/json")
+            .build()
         try {
-            this.channel.basicPublish(
-                    "",
-                    "Salgsmelding",
-                    null,
-                    message.toByteArray(StandardCharsets.UTF_8)
-            )
-            print("suksess")
-        }
-        catch (e: IOException) {
-            print(e.stackTrace)
+            val responsebody = client.newCall(request).execute()
+            print(responsebody.code)
+        } catch (e: IOException) {
+            print(e.message)
         }
     }
 }
