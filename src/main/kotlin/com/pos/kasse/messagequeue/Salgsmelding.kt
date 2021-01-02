@@ -6,17 +6,23 @@ import com.pos.kasse.entities.Vare
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-
 object Salgsmelding {
 
     fun createMelding(salg: Salg, kvittering: Kvittering): String {
-        val salgsMap: MutableMap<Vare, Double> = mutableMapOf()
+        val salgsMap: MutableMap<Long, Double> = mutableMapOf()
+        kvittering.vareListe?.forEach {
+            salgsMap.putIfAbsent(it.ean, 1.0)
+                ?: salgsMap[it.ean] to salgsMap[it.ean]?.plus(1.0)
+            //TODO: Fikse denne if-else løkken. Nåværende metode er litt fyfy.
+            /*
         if (salg.kvitteringsid == kvittering.kvitteringsid) {
-            kvittering.vareListe?.forEach {
-                salgsMap.putIfAbsent(it, 1.0) ?: salgsMap[it] to salgsMap[it]?.plus(1.0)
+
             }
+        } else {
+            error("Id for Salg og kvittering er ulik...")
+        }
+         */
         }
         return Json.encodeToString(salgsMap)
     }
-
 }

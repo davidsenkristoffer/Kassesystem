@@ -91,7 +91,6 @@ class PaymentController : Controller() {
                 val kvitteringsid = commitKvitteringToDB(kvittering)
                 salg.kvitteringsid = kvitteringsid
                 commitSalgToDB(salg)
-                Salgsmelding.createMelding(salg, kvittering)
     }
     private suspend fun commitKvitteringToDB(kvittering: Kvittering) = withContext(Dispatchers.Default) {
         val newKvittering: Kvittering = kvitteringService.leggTilKvittering(kvittering)
@@ -104,7 +103,11 @@ class PaymentController : Controller() {
 
     fun postToServer(salg: Salg, kvittering: Kvittering) =
         CoroutineScope(context = Dispatchers.IO).launch {
-            Salgsmelding.createMelding(salg, kvittering).also { Publisher.publish(it) }
+            runCatching {
+                Salgsmelding.createMelding(salg, kvittering).also { Publisher.publish(it) }
+            }.onFailure {
+                print(it.message)
+            }
         }
 
     fun postPay(finishedKvittering: Kvittering) = CoroutineScope(context = Dispatchers.Default).launch {

@@ -17,7 +17,7 @@ import kotlin.reflect.KClass
  */
 
 @SpringBootApplication
-class TheApp: App() {
+open class TheApp: App() {
     override val primaryView = LoginView::class
     private lateinit var context: ConfigurableApplicationContext
 

@@ -25,7 +25,9 @@ class PaymentView : View() {
     override fun onDock() {
         runAsync {
             paymentController.pay(vmsub.lastNumber.get())
-        }.setOnSucceeded { replaceWith(MainWindow::class, ViewTransition.FadeThrough(1.seconds, Color.TRANSPARENT)) }
+        }.setOnSucceeded {
+            replaceWith(MainWindow::class, ViewTransition.FadeThrough(1.seconds, Color.TRANSPARENT))
+        }
     }
 
     /*

@@ -68,7 +68,7 @@ class Runner(private val vareService: VareService, private val loginService: Log
         /*
         Uncomment to add items to the database...
          */
-        leggTilVarer(nyeV2)
+        //leggTilVarer(nyeV2)
 
         vareliste = vareService.hentAlleVarer()
         logger.printConsole("Totalt ${vareliste.size} antall varer...")

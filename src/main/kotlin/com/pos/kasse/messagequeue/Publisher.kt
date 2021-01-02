@@ -16,7 +16,7 @@ object Publisher {
      */
     fun publish(salgsmelding: String) {
         val request = Request.Builder()
-            .url("$URL_API/kasse/salg")
+            .url("http://$URL_API/kasse/salg")
             .post(salgsmelding
                 .toRequestBody(contentType = "application/json".toMediaTypeOrNull()))
             .addHeader("Content-Type", "application/json")

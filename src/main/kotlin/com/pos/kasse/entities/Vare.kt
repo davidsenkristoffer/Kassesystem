@@ -10,6 +10,7 @@ import java.io.Serializable
 
 @Entity
 @javax.persistence.Table(name = "vare", schema = "varer")
+@kotlinx.serialization.Serializable
 data class Vare(
         @Id
         val ean: Long = 0,
