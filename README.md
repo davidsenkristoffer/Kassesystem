@@ -3,10 +3,10 @@
   - Benyttet rammeverket TornadoFX for det visuelle.
   - Spring for kommunikasjon med database.
   
-## Bestillingssystem (kommer):
+## Bestillingssystem:
 * Poenget er å slå sammen flere systemer som skal jobbe sammen.
 * Serverside i Kotlin.
-* Frontend i Kotlin/Multiplatform eller Flutter.
+* Frontend i React.js.
 
 ## Skjermbilder:
 
